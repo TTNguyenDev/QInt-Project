@@ -12,8 +12,6 @@
 void convertBaseNumber_FILE(string input, string output) {
     string mainLink = "/Users/trietnguyen/Desktop";
     ifstream inFile(mainLink + input);
-    
-    
 }
 
 
@@ -109,16 +107,4 @@ string interface::inputString() {
     return number;
 }
 
-int main(int argc, const char * argv[]) {
-    
-    if (argc == 3) {
-        
-    }
-    interface a;
-    a.selection();
-    
-    
-    
-    
-    
-}
+

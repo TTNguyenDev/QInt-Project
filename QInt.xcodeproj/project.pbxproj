@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B59F4094217EF6A70077E2A1 /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59F4092217EF6A70077E2A1 /* Interface.cpp */; };
-		B5E040EC217AFF2A00837744 /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E040EB217AFF2A00837744 /* Convert.cpp */; };
 		B5E040EF217B089800837744 /* QInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E040ED217B089800837744 /* QInt.cpp */; };
 /* End PBXBuildFile section */
 
@@ -28,8 +27,6 @@
 		B59F4092217EF6A70077E2A1 /* Interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Interface.cpp; sourceTree = "<group>"; };
 		B59F4093217EF6A70077E2A1 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Interface.hpp; sourceTree = "<group>"; };
 		B5E040DE217AFA7800837744 /* QInt */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QInt; sourceTree = BUILT_PRODUCTS_DIR; };
-		B5E040EA217AFD2D00837744 /* Convert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
-		B5E040EB217AFF2A00837744 /* Convert.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
 		B5E040ED217B089800837744 /* QInt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QInt.cpp; sourceTree = "<group>"; };
 		B5E040EE217B089800837744 /* QInt.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QInt.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,18 +72,8 @@
 			children = (
 				B59F4091217EF6930077E2A1 /* Interface */,
 				B5E040E9217AFD1300837744 /* QInt */,
-				B5E040E8217AFD0600837744 /* Convert */,
 			);
 			path = QInt;
-			sourceTree = "<group>";
-		};
-		B5E040E8217AFD0600837744 /* Convert */ = {
-			isa = PBXGroup;
-			children = (
-				B5E040EA217AFD2D00837744 /* Convert.h */,
-				B5E040EB217AFF2A00837744 /* Convert.cpp */,
-			);
-			path = Convert;
 			sourceTree = "<group>";
 		};
 		B5E040E9217AFD1300837744 /* QInt */ = {
@@ -155,7 +142,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B59F4094217EF6A70077E2A1 /* Interface.cpp in Sources */,
-				B5E040EC217AFF2A00837744 /* Convert.cpp in Sources */,
 				B5E040EF217B089800837744 /* QInt.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
