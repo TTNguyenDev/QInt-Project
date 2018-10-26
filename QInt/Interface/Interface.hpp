@@ -9,18 +9,23 @@
 #ifndef Interface_hpp
 #define Interface_hpp
 
-#include <iostream>
 #include "QInt.hpp"
 
 using namespace std;
 
-class interface {
+class Interface {
 public:
-    int selection();
+    void helloScreen();
+    void select_QFloat_QInt();
+    
+    void functionalityQInt();
+    void functionalityQFloat();
     int selectBaseNumber();
+    void convert(int);
+    void andOrXorNotFunc(int);
+    void selectAndOrXorNot();
+    void calculate(int);
     void selectOperator();
     string inputString();
-    
-    
 };
 #endif /* Interface_hpp */

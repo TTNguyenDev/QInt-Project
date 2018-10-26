@@ -8,105 +8,28 @@
 
 #include "QInt.hpp"
 
-//Support Function
-int getBit(long data, int position) {
-    return (data >> position) & 1;
-}
-
-void setBit(long &data, int position) {
-    data |= 1UL << position;
-}
-
 //Constructor
+
+//Khởi tạo kiểu QInt với vùng nhớ là 4 biến kiểu long 32bit
 QInt::QInt() {
     this->data.resize(4);
 }
 
+//Khởi tạo kiểu QInt với vùng nhớ là 4 biến kiểu long 32bit, giá trị truyền vào là chuỗi string, sử dụng phép tính toán số học để gán dãy bit vào 4 biến kiểu long(vùng nhớ của QInt)
 QInt::QInt(string binStr) {
     while (binStr.length() != 128)
         binStr = '0' + binStr;
     this->data.resize(4);
     for (int i = 0; i < 128; i++)
         if (binStr[i] == '1')
-            this->data[(127-i) / 32] = this->data[(127-i) / 32] | (1 << 31 - (i % 32));
-}
-
-//Convert QInt to 2, 10, 16
-string QInt::QInt2Hex() {
-    int sum;
-    string result;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 32; j+=4) {
-            sum = getBit(data[i], j) + getBit(data[i], j+1)*2 + getBit(data[i], j+2)*4 + getBit(data[i], j+3)*8;
-            if (sum < 10 && sum >= 0)
-                result.push_back(sum + 48);
-            else
-                result.push_back(sum - 10 + 'A');
-        }
-    reverse(result.begin(), result.end());
-    return result;
-    
-}
-
-string QInt::QInt2Bin() {
-    string result;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 32; j++)
-            result.push_back(getBit(data[i], j) + 48);
-    reverse(result.begin(), result.end());
-    return result;
-}
-
-
-//Operator + - * /
-
-//Toan tu AND OR XOR NOT
-//QInt& QInt::operator=(const QInt &qint) {
-//
-//    data.resize(4);
-//
-//    for (int i = 0; i < 4; i++) {
-//        data[i] = qint.data[i];
-//    }
-//    return *this;
-//}
-
-//Operator & | ^ ~
-QInt QInt::operator & (const QInt &qint) {
-    QInt result;
-    
-    for (int i = 0; i < 4; i++)
-        result.data[i] = data[i] & qint.data[i];
-    
-    return result;
-}
-
-QInt QInt::operator | (const QInt &qint) {
-    QInt result;
-    
-    for (int i = 0; i < 4; i++)
-        result.data[i] = data[i] | qint.data[i];
-    
-    return result;
-}
-
-QInt QInt::operator^(const QInt &qint) {
-    QInt result;
-    
-    for (int i = 0; i < 4; i++)
-        result.data[i] = data[i] ^ qint.data[i];
-    
-    return result;
-}
-
-QInt& QInt::operator~() {
-    for (int i = 0; i < 4; i++)
-        data[i] = ~data[i];
-    return *this;
+            this->data[(127-i) / 32] = this->data[(127-i) / 32] | (1 << (31 - (i % 32)));
 }
 
 //Convert input to Binary String
+
+//Hàm chuyển đổi từ hệ 10 sang hệ 2
 string QInt::Dec2Bin(string decStr) {
+    string str;
     while (decStr != "") {
         str.push_back(((decStr[decStr.size() - 1] - 48) % 2) + 48);
         decStr = DividedByTwo(decStr);
@@ -115,14 +38,16 @@ string QInt::Dec2Bin(string decStr) {
     return str;
 }
 
-string QInt::Bin2Bin(string str) {
-    str = str;
-    return str;
+//Hàm trả về hệ 2
+string QInt::Bin2Bin(string bin) {
+    return bin;
 }
 
-string QInt::Oct2Bin(string str) {
-    for (int i = 0; i < str.size(); i++)
-        switch (str[i]) {
+//Hàm chuyển từ hệ 8 sang hệ 2
+string QInt::Oct2Bin(string oct) {
+    string str;
+    for (int i = 0; i < oct.size(); i++)
+        switch (oct[i]) {
             case '0':
                 str += "000";
                 break;
@@ -151,9 +76,11 @@ string QInt::Oct2Bin(string str) {
     return str;
 }
 
-string QInt::Hex2Bin(string str) {
-    for (int i = 0; i < str.size(); i++)
-        switch (str[i]) {
+//Hàm chuyển từ hệ 16 sang hệ 2
+string QInt::Hex2Bin(string hex) {
+     string str;
+    for (int i = 0; i < hex.size(); i++)
+        switch (hex[i]) {
             case '0':
                 str += "0000";
                 break;
@@ -206,6 +133,77 @@ string QInt::Hex2Bin(string str) {
     return str;
 }
 
+//Convert QInt to 2, 10, 16
+
+//Hàm chuyển từ kiểu QInt sang hệ 16 dạng chuỗi
+string QInt::QInt2Hex() {
+    int sum;
+    string result;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 32; j+=4) {
+            sum = getBit(data[i], j) + getBit(data[i], j+1)*2 + getBit(data[i], j+2)*4 + getBit(data[i], j+3)*8;
+            if (sum < 10 && sum >= 0)
+                result.push_back(sum + 48);
+            else
+                result.push_back(sum - 10 + 'A');
+        }
+    reverse(result.begin(), result.end());
+    return result;
+    
+}
+
+//Hàm chuyển từ kiểu QInt sang hệ 2 dạng chuỗi
+string QInt::QInt2Bin() {
+    string result;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 32; j++)
+            result.push_back(getBit(data[i], j) + 48);
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+string QInt::QInt2Dec() {
+    return "1";
+}
+
+//Operator + - * /
+
+
+//Operator & | ^ ~
+QInt QInt::operator & (const QInt &qint) {
+    QInt result;
+    
+    for (int i = 0; i < 4; i++)
+        result.data[i] = data[i] & qint.data[i];
+    
+    return result;
+}
+
+QInt QInt::operator | (const QInt &qint) {
+    QInt result;
+    
+    for (int i = 0; i < 4; i++)
+        result.data[i] = data[i] | qint.data[i];
+    
+    return result;
+}
+
+QInt QInt::operator^(const QInt &qint) {
+    QInt result;
+    
+    for (int i = 0; i < 4; i++)
+        result.data[i] = data[i] ^ qint.data[i];
+    
+    return result;
+}
+
+QInt& QInt::operator~() {
+    for (int i = 0; i < 4; i++)
+        data[i] = ~data[i];
+    return *this;
+}
+
+//Support Function
 string QInt::DividedByTwo(string &str) {
     string result;
     int tempValue = 0;
@@ -216,66 +214,12 @@ string QInt::DividedByTwo(string &str) {
         tempValue = tempValue % 2;
     }
     return result;
-}
+} //Chia 2 chuỗi số hệ 10
 
+int QInt::getBit(long data, int position) {
+    return (data >> position) & 1;
+} //Lấy bit tại vị trí position
 
-
-string QInt::BaseNumberConvertation(int first, int second, string data) {
-    
-    
-    switch (first) {
-        case 1:
-            Bin2Bin(data);
-            break;
-        case 2:
-            Oct2Bin(data);
-            break;
-        case 3:
-            Dec2Bin(data);
-            break;
-        case 4:
-            Hex2Bin(data);
-            break;
-    }
-    
-    QInt output(getData());
-    
-    switch (second) {
-        case 1:
-            return output.toBinary();
-        case 2:
-            return "2";
-        case 3:
-            return output.Bin2Dec();
-        case 4:
-            return "4";
-    }
-    return "-1";
-}
-
-int main(int argc, const char * argv[]) {
-    QInt a("1010101011010101010101011001101010101010110111");
-    cout << a.QInt2Bin();
-}
-
-string QInt::toBinary() {
-    string binStr[128];
-    for (int i = 3; i >= 0; i--)
-        cout << bitset<32>(data[i]);
-    return "h";
-}
-
-string QInt::Bin2Dec() {
-    int64_t result = 0;
-    vector<int64_t> sum;
-    
-    for (int i = 127; i >= 0; i--)
-        sum.push_back(data[i] * pow(2, 127 - i));
-    for (int i = 0; i < sum.size(); i++)
-        result += sum[i];
-    
-    return to_string(result);
-}
 
 
 
