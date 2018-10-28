@@ -9,7 +9,7 @@ using namespace std;
 
 class QInt {
 private:
-    vector<long> data;
+    vector<uint32_t> data;
 public:
     //Constructor
     QInt();
@@ -24,20 +24,23 @@ public:
     //Convert QInt to 2, 8, 10, 16 string
     string QInt2Hex();
     string QInt2Bin();
-    string QInt2Dec();
+    string QInt2Dec(); //Chưa làm :))
 
     //Operator
     QInt operator &(const QInt&);
     QInt operator |(const QInt&);
     QInt operator ^(const QInt&);
     QInt& operator ~();
-    
+    QInt operator >>(const int);
+    QInt operator <<(const int);
     //Operator + - * /
     
     
     //Support Function
     string DividedByTwo(string&);
-    int getBit(long,int);
+    int getBit(uint32_t,int);
+    int setBit(uint32_t&,int);
+   
     
     
     

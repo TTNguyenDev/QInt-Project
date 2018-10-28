@@ -78,7 +78,7 @@ string QInt::Oct2Bin(string oct) {
 
 //Hàm chuyển từ hệ 16 sang hệ 2
 string QInt::Hex2Bin(string hex) {
-     string str;
+    string str;
     for (int i = 0; i < hex.size(); i++)
         switch (hex[i]) {
             case '0':
@@ -203,6 +203,31 @@ QInt& QInt::operator~() {
     return *this;
 }
 
+QInt QInt::operator <<(const int times) {
+    QInt result;
+    result.data = data;
+    for (int j = 0; j < times; j++)
+        for (int i = 3; i >= 0; i--) {
+            result.data[i] = result.data[i] << 1;
+            if (getBit(result.data[i-1], 31) == 1)
+                setBit(result.data[i], 0);
+        }
+    return result;
+}
+
+QInt QInt::operator >>(const int times) { //lỗi bit dấu khi dịch phải
+    QInt result;
+    result.data = data;
+    for (int j = 0; j < times; j++)
+        for (int i = 0; i < 4; i++) {
+            result.data[i] = result.data[i] >> 1;
+            if (getBit(result.data[i+1], 0) == 1)
+                setBit(result.data[i], 31);
+        }
+    return result;
+}
+
+
 //Support Function
 string QInt::DividedByTwo(string &str) {
     string result;
@@ -216,11 +241,16 @@ string QInt::DividedByTwo(string &str) {
     return result;
 } //Chia 2 chuỗi số hệ 10
 
-int QInt::getBit(long data, int position) {
+int QInt::getBit(uint32_t data, int position) {
     return (data >> position) & 1;
 } //Lấy bit tại vị trí position
 
 
+
+int QInt::setBit(uint32_t &data, int position) {
+    data = (1 << position) | data;
+    return data;
+}
 
 
 

@@ -128,6 +128,7 @@ void Interface::andOrXorNotFunc(int type) {
     cout << "-> ";
     cin >> choose;
     
+    
     if (choose > 0 && choose < 4) {
         string number_1 = inputString();
         string number_2 = inputString();
@@ -140,14 +141,17 @@ void Interface::andOrXorNotFunc(int type) {
             result = a | b;
         if (choose == 3)
             result = a ^ b;
+        cout << result.QInt2Bin() << endl;
     }
     
-    if (choose == 4) {
+    else if (choose == 4) {
         string number_1 = inputString();
         QInt a(number_1);
         QInt result;
         result = ~a;
-    } else {
+        
+        cout << result.QInt2Bin();
+    } else if (choose > 4 && choose < 9) {
         string number_1 = inputString();
         int times;
         cout << "Enter time: ";
@@ -155,13 +159,6 @@ void Interface::andOrXorNotFunc(int type) {
         QInt a(number_1);
         // func >> << ror rol
     }
-    
-    
-    
-    
-    
-    
-    
     
     
 }
@@ -231,18 +228,21 @@ void Interface::selectOperator() {
 }
 
 string Interface::inputString() {
-    cin.ignore();
     string number;
-    cout << "Enter Number: " << endl;
-    getline(cin, number);
+    cout << "Enter Number: ";
+    cin >> number;
     return number;
 }
 
 int main() {
-    Interface a;
-    a.helloScreen();
-    a.select_QFloat_QInt();
-    
-    
+//    Interface a;
+//    a.helloScreen();
+//    a.select_QFloat_QInt();
+    string str = "11111110011110110101010110101010101010010100101010010101010001110101010101001010101010100101010010101001010101010010101010101000";
+    QInt k(str);
+    QInt b;
+    cout << k.QInt2Bin() << endl;
+    b = k >> 1;
+    cout << b.QInt2Bin() << endl;
 }
 
