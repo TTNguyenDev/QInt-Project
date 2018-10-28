@@ -242,7 +242,7 @@ int main() {
     QInt k(str);
     QInt b;
     cout << k.QInt2Bin() << endl;
-    b = k >> 1;
+    b = k >> 3;
     cout << b.QInt2Bin() << endl;
 }
 

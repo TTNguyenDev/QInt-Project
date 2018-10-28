@@ -215,7 +215,7 @@ QInt QInt::operator <<(const int times) {
     return result;
 }
 
-QInt QInt::operator >>(const int times) { //lỗi bit dấu khi dịch phải
+QInt QInt::operator >>(const int times) { 
     QInt result;
     result.data = data;
     for (int j = 0; j < times; j++)
@@ -223,6 +223,8 @@ QInt QInt::operator >>(const int times) { //lỗi bit dấu khi dịch phải
             result.data[i] = result.data[i] >> 1;
             if (getBit(result.data[i+1], 0) == 1)
                 setBit(result.data[i], 31);
+            if (getBit(data[3], 31) == 1)
+                setBit(result.data[3], 31);
         }
     return result;
 }
