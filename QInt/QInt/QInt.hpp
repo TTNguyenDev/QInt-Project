@@ -33,18 +33,20 @@ public:
     QInt& operator ~();
     QInt operator >>(const int);
     QInt operator <<(const int);
-    //Operator + - * /
+    QInt operator ==(const int); //spam operator :))
+    QInt ShiftRight();
+    QInt& RoL(const int);
+    QInt& RoR(const int);
+    
+    //+ - * /
+    QInt operator +(QInt qint);
     
     
     //Support Function
     string DividedByTwo(string&);
     int getBit(uint32_t,int);
     int setBit(uint32_t&,int);
-   
-    
-    
-    
-//    QInt& operator =(const QInt&);
+
 };
 
 #endif

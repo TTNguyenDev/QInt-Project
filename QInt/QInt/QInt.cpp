@@ -167,6 +167,39 @@ string QInt::QInt2Dec() {
 }
 
 //Operator + - * /
+QInt QInt::operator +(QInt qint)
+{
+    QInt q = *this;
+    QInt result;
+    result.data.clear();
+    
+    int length = q.data.size() > qint.data.size() ? q.data.size() : qint.data.size();
+    
+    q.data.resize(length);
+    qint.data.resize(length);
+    
+    long extra = 0;
+    long temp;
+    for (int i = 0; i <length; i++)
+    {
+        temp = q.data[i] + qint.data[i] + extra;
+        extra = 0;
+        if (temp <= 9 || i == 0)
+        {
+            result.data.push_back(temp );
+            //extra = temp / 10;
+        }
+        else
+        {
+            result.data.push_back(temp % 10);
+            //extra = temp / 10;
+            extra = 1;
+        }
+    }
+    if (extra > 0)
+        result.data.push_back(temp);
+    return result;
+}
 
 
 //Operator & | ^ ~
@@ -229,6 +262,43 @@ QInt QInt::operator >>(const int times) {
     return result;
 }
 
+QInt QInt::operator ==(const int times) {
+    QInt result;
+    result.data = data;
+    for (int j = 0; j < times; j++)
+        for (int i = 0; i < 4; i++) {
+            result.data[i] = result.data[i] >> 1;
+            if (getBit(result.data[i+1], 0) == 1)
+                setBit(result.data[i], 31);
+        }
+    return result;
+    
+}
+
+
+QInt& QInt::RoL(const int times) {
+    for (int i = 0; i < times; i++) {
+        if (getBit(data[3], 31) == 1) {
+            *this = *this << 1;
+            setBit(data[0], 0);
+        } else {
+            *this = *this << 1;
+        }
+    }
+    return *this;
+}
+
+QInt& QInt::RoR(const int times) {
+    for (int i = 0; i < times; i++) {
+        if (getBit(data[0], 0) == 1) {
+            *this = *this >> 1;
+            setBit(data[3], 31);
+        } else {
+            *this = *this == 1;
+        }
+    }
+    return *this;
+}
 
 //Support Function
 string QInt::DividedByTwo(string &str) {

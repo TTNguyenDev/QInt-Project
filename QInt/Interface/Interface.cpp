@@ -83,31 +83,36 @@ void Interface::calculate(int type) { //1 QInt, 2 QFloat
     int base = selectBaseNumber();
     string number_1 = inputString();
     string number_2 = inputString();
-    
+    QInt result;
     if (type == 1) {
         QInt a;
-        if (base == 2) {
+        if (base == 1) {
             number_1 = a.Bin2Bin(number_1);
             number_2 = a.Bin2Bin(number_2);
         }
-        if (base == 8) {
+        if (base == 2) {
             number_1 = a.Oct2Bin(number_1);
             number_2 = a.Oct2Bin(number_2);
         }
-        if (base == 10)  {
+        if (base == 3)  {
             number_1 = a.Dec2Bin(number_1);
             number_2 = a.Dec2Bin(number_2);
+            QInt ele_1(number_1);
+            QInt ele_2(number_2);
+            result = ele_1 + ele_2;
+            cout << "Result: " << result.QInt2Bin() << endl;
+        
         }
-        if (base == 16) {
+        if (base == 4) {
             number_1 = a.Hex2Bin(number_1);
             number_2 = a.Hex2Bin(number_2);
         }
     } else if (type == 2) {
         
     }
-    
-    cout << "Result: " << endl;
 }
+    
+    
 
 void Interface::selectAndOrXorNot() {
     cout << "\t\t\t************************************" << endl;
@@ -242,7 +247,7 @@ int main() {
     QInt k(str);
     QInt b;
     cout << k.QInt2Bin() << endl;
-    b = k >> 3;
-    cout << b.QInt2Bin() << endl;
+    k.RoR(6);
+    cout << k.QInt2Bin() << endl;
 }
 
