@@ -7,6 +7,9 @@
 //
 
 #include "QInt.hpp"
+#include "float.h"
+
+
 
 //Constructor
 
@@ -163,11 +166,28 @@ string QInt::QInt2Bin() {
 }
 
 string QInt::QInt2Dec() {
-    return "1";
+    long double temp;
+    string saveString;
+    string result;
+    int dotOfFloatNumber = 0;
+    vector<bool> m_data;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 32; j++)
+            m_data.push_back(getBit(data[i], j));
+    
+    for (int i = 0; i < 128; ++i) {
+        temp = m_data[i] * pow(2, i);
+        saveString = to_string(temp);
+        dotOfFloatNumber = saveString.find_first_of(".");
+        saveString.erase(dotOfFloatNumber, saveString.size() - dotOfFloatNumber);
+        result = Add2String(result, saveString);
+    }
+    return result;
 }
 
+
 //Operator + - * /
-QInt QInt::operator +(QInt qint)
+QInt QInt::operator +(QInt qint) //Sai rồi :)
 {
     QInt q = *this;
     QInt result;
@@ -179,7 +199,7 @@ QInt QInt::operator +(QInt qint)
     qint.data.resize(length);
     
     long extra = 0;
-    long temp;
+    long temp = 0;
     for (int i = 0; i <length; i++)
     {
         temp = q.data[i] + qint.data[i] + extra;
@@ -317,11 +337,67 @@ int QInt::getBit(uint32_t data, int position) {
     return (data >> position) & 1;
 } //Lấy bit tại vị trí position
 
-
-
 int QInt::setBit(uint32_t &data, int position) {
     data = (1 << position) | data;
     return data;
+}
+
+string QInt::Add2String(string &num1, string &num2) {
+    int tempNum = 0;
+    //Thêm 0 vào 2 dãy đến khi chúng có chiều dài bằng nhau
+    if (num1.size() > num2.size())
+        while (num1.size() != num2.size())
+            num2.insert(num2.begin(), '0');
+    else
+        while (num1.size() != num2.size())
+            num1.insert(num1.begin(), '0');
+    
+    for (int i = num1.size() - 1; i >= 0; i--) {
+        tempNum = tempNum + num1[i] + num2[i] - 2 * '0';
+        num1[i] = (tempNum % 10) + '0';
+        tempNum = tempNum / 10;
+    }
+    
+    if (tempNum != 0) {
+        num1.insert(num1.begin(), tempNum + '0');
+        tempNum = 0;
+    }
+    
+    while (num1[0] == '0')
+        num1.erase(num1.begin());
+    
+    return num1;
+}
+
+string QInt::Substract2String(string &num1, string &num2) {
+    int Temp = 0;
+    
+    if (num1.size() > num2.size())
+        while (num1.size() != num2.size())
+            num2.insert(num2.begin(), '0');
+    else
+        while (num1.size() != num2.size())
+            num1.insert(num1.begin(), '0');
+    
+    if (strcmp(num1.c_str(), num2.c_str()) < 0) {
+        string TempStr = num1;
+        num1 = num2;
+        num2 = TempStr;
+    }
+    
+    for (int i = num1.size() - 1; i > -1; i--) {
+        if ((num1[i] - Temp) < num2[i]) {
+            num1[i] = (10 + num1[i] - num2[i] - Temp) + '0';
+            Temp = 1;
+        } else {
+            num1[i] = num1[i] - num2[i] - Temp + '0';
+            Temp = 0;
+        }
+    }
+    
+    while (num1[0] == '0')
+        num1.erase(num1.begin());
+    return num1;
 }
 
 

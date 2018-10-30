@@ -25,6 +25,9 @@ public:
     string QInt2Hex();
     string QInt2Bin();
     string QInt2Dec(); //Chưa làm :))
+    
+    
+    
 
     //Operator
     QInt operator &(const QInt&);
@@ -46,6 +49,8 @@ public:
     string DividedByTwo(string&);
     int getBit(uint32_t,int);
     int setBit(uint32_t&,int);
+    string Substract2String(string&,string&);
+    string Add2String(std::string & num1, std::string & num2);
 
 };
 

@@ -240,14 +240,14 @@ string Interface::inputString() {
 }
 
 int main() {
-//    Interface a;
-//    a.helloScreen();
-//    a.select_QFloat_QInt();
-    string str = "11111110011110110101010110101010101010010100101010010101010001110101010101001010101010100101010010101001010101010010101010101000";
-    QInt k(str);
-    QInt b;
-    cout << k.QInt2Bin() << endl;
-    k.RoR(6);
-    cout << k.QInt2Bin() << endl;
+    Interface a;
+    a.helloScreen();
+    a.select_QFloat_QInt();
+//    string str = "11111110011110110101010110101010101010010100101010010101010001110101010101001010101010100101010010101001010101010010101010101000";
+//    QInt k(str);
+//    QInt b;
+//    cout << k.QInt2Bin() << endl;
+//    k.RoR(6);
+//    cout << k.QInt2Bin() << endl;
 }
 
