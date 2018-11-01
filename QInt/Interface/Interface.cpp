@@ -84,6 +84,7 @@ void Interface::calculate(int type) { //1 QInt, 2 QFloat
     string number_1 = inputString();
     string number_2 = inputString();
     QInt result;
+    string output;
     if (type == 1) {
         QInt a;
         if (base == 1) {
@@ -97,23 +98,45 @@ void Interface::calculate(int type) { //1 QInt, 2 QFloat
         if (base == 3)  {
             number_1 = a.Dec2Bin(number_1);
             number_2 = a.Dec2Bin(number_2);
-            QInt ele_1(number_1);
-            QInt ele_2(number_2);
-            result = ele_1 + ele_2;
-            cout << "Result: " << result.QInt2Bin() << endl;
-        
         }
         if (base == 4) {
             number_1 = a.Hex2Bin(number_1);
             number_2 = a.Hex2Bin(number_2);
         }
+        
+        QInt ele_1(number_1);
+        QInt ele_2(number_2);
+        selectOperator();
+        int operator_c;
+        cout << "-> ";
+        cin >> operator_c;
+        if (operator_c == 1)
+            result = ele_1 + ele_2;
+        
+        if (operator_c == 2)
+            result = ele_1 - ele_2;
+//        if (operator_c == 3);
+//
+//        if (operator_c == 4);
+        
+        cout << "Select result base number: " << endl;
+        int bases = selectBaseNumber();
+        if (bases == 1) {
+            output = result.QInt2Bin();
+        }
+        if (bases == 3)  {
+            output = result.QInt2Dec();
+        }
+        if (bases == 4) {
+           output = result.QInt2Hex();
+        }
+        cout << "Result: " << output << endl;
+        // * /
     } else if (type == 2) {
         
     }
 }
     
-    
-
 void Interface::selectAndOrXorNot() {
     cout << "\t\t\t************************************" << endl;
     cout << "\t\t\t*  1.And(&)                        *" << endl;
@@ -243,11 +266,8 @@ int main() {
     Interface a;
     a.helloScreen();
     a.select_QFloat_QInt();
-//    string str = "11111110011110110101010110101010101010010100101010010101010001110101010101001010101010100101010010101001010101010010101010101000";
-//    QInt k(str);
-//    QInt b;
-//    cout << k.QInt2Bin() << endl;
-//    k.RoR(6);
-//    cout << k.QInt2Bin() << endl;
+
+    
+    
 }
 

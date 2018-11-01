@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B5495C9721834EDA00467A0D /* QFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5495C9521834ED900467A0D /* QFloat.cpp */; };
+		B575EA5C2188312800AD423D /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B575EA5A2188312800AD423D /* File.cpp */; };
 		B59F4094217EF6A70077E2A1 /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59F4092217EF6A70077E2A1 /* Interface.cpp */; };
 		B5E040EF217B089800837744 /* QInt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E040ED217B089800837744 /* QInt.cpp */; };
 /* End PBXBuildFile section */
@@ -27,6 +28,8 @@
 /* Begin PBXFileReference section */
 		B5495C9521834ED900467A0D /* QFloat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QFloat.cpp; sourceTree = "<group>"; };
 		B5495C9621834ED900467A0D /* QFloat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QFloat.hpp; sourceTree = "<group>"; };
+		B575EA5A2188312800AD423D /* File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		B575EA5B2188312800AD423D /* File.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		B59F4092217EF6A70077E2A1 /* Interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Interface.cpp; sourceTree = "<group>"; };
 		B59F4093217EF6A70077E2A1 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Interface.hpp; sourceTree = "<group>"; };
 		B5E040DE217AFA7800837744 /* QInt */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QInt; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +55,15 @@
 				B5495C9621834ED900467A0D /* QFloat.hpp */,
 			);
 			path = QFloat;
+			sourceTree = "<group>";
+		};
+		B575EA592188311B00AD423D /* File */ = {
+			isa = PBXGroup;
+			children = (
+				B575EA5A2188312800AD423D /* File.cpp */,
+				B575EA5B2188312800AD423D /* File.hpp */,
+			);
+			path = File;
 			sourceTree = "<group>";
 		};
 		B59F4091217EF6930077E2A1 /* Interface */ = {
@@ -82,6 +94,7 @@
 		B5E040E0217AFA7800837744 /* QInt */ = {
 			isa = PBXGroup;
 			children = (
+				B575EA592188311B00AD423D /* File */,
 				B5495C9421834C3C00467A0D /* QFloat */,
 				B59F4091217EF6930077E2A1 /* Interface */,
 				B5E040E9217AFD1300837744 /* QInt */,
@@ -155,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5495C9721834EDA00467A0D /* QFloat.cpp in Sources */,
+				B575EA5C2188312800AD423D /* File.cpp in Sources */,
 				B59F4094217EF6A70077E2A1 /* Interface.cpp in Sources */,
 				B5E040EF217B089800837744 /* QInt.cpp in Sources */,
 			);

@@ -10,6 +10,7 @@ using namespace std;
 class QInt {
 private:
     vector<uint32_t> data;
+    string pow2_127 = "170141183460469231731687303715884105728";
 public:
     //Constructor
     QInt();
@@ -24,11 +25,8 @@ public:
     //Convert QInt to 2, 8, 10, 16 string
     string QInt2Hex();
     string QInt2Bin();
-    string QInt2Dec(); //Chưa làm :))
+    string QInt2Dec();
     
-    
-    
-
     //Operator
     QInt operator &(const QInt&);
     QInt operator |(const QInt&);
@@ -43,14 +41,16 @@ public:
     
     //+ - * /
     QInt operator +(QInt qint);
-    
+    QInt operator -(QInt qint);
     
     //Support Function
     string DividedByTwo(string&);
     int getBit(uint32_t,int);
     int setBit(uint32_t&,int);
     string Substract2String(string&,string&);
-    string Add2String(std::string & num1, std::string & num2);
+    string Add2String(string&,string&);
+    bool isZero();
+    QInt QInttoTwosComplement();
 
 };
 

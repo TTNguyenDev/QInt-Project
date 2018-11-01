@@ -9,8 +9,6 @@
 #include "QInt.hpp"
 #include "float.h"
 
-
-
 //Constructor
 
 //Khởi tạo kiểu QInt với vùng nhớ là 4 biến kiểu long 32bit
@@ -33,11 +31,22 @@ QInt::QInt(string binStr) {
 //Hàm chuyển đổi từ hệ 10 sang hệ 2
 string QInt::Dec2Bin(string decStr) {
     string str;
+    bool negative = false;
+    if (decStr[0] == '-') {
+        decStr.erase(decStr.begin());
+        negative = true;
+    }
     while (decStr != "") {
         str.push_back(((decStr[decStr.size() - 1] - 48) % 2) + 48);
         decStr = DividedByTwo(decStr);
     }
     reverse(str.begin(), str.end());
+    
+    if (negative == true) {
+        QInt qint(str);
+        qint = qint.QInttoTwosComplement();
+        str = qint.QInt2Bin();
+    }
     return str;
 }
 
@@ -175,52 +184,44 @@ string QInt::QInt2Dec() {
         for (int j = 0; j < 32; j++)
             m_data.push_back(getBit(data[i], j));
     
-    for (int i = 0; i < 128; ++i) {
+    for (int i = 0; i < 127; ++i) {
         temp = m_data[i] * pow(2, i);
         saveString = to_string(temp);
         dotOfFloatNumber = saveString.find_first_of(".");
         saveString.erase(dotOfFloatNumber, saveString.size() - dotOfFloatNumber);
         result = Add2String(result, saveString);
     }
+    if (m_data[127]) {
+        result = Substract2String(result, pow2_127);
+    }
     return result;
 }
-
 
 //Operator + - * /
-QInt QInt::operator +(QInt qint) //Sai rồi :)
-{
-    QInt q = *this;
-    QInt result;
-    result.data.clear();
+QInt QInt::operator +(QInt qint) {
+    QInt result = *this;
+    QInt carryNumber;
     
-    int length = q.data.size() > qint.data.size() ? q.data.size() : qint.data.size();
-    
-    q.data.resize(length);
-    qint.data.resize(length);
-    
-    long extra = 0;
-    long temp = 0;
-    for (int i = 0; i <length; i++)
-    {
-        temp = q.data[i] + qint.data[i] + extra;
-        extra = 0;
-        if (temp <= 9 || i == 0)
-        {
-            result.data.push_back(temp );
-            //extra = temp / 10;
-        }
-        else
-        {
-            result.data.push_back(temp % 10);
-            //extra = temp / 10;
-            extra = 1;
-        }
+    while (!(qint.isZero())) {
+        carryNumber = result & qint;
+        result = result ^ qint;
+        qint = carryNumber << 1;
     }
-    if (extra > 0)
-        result.data.push_back(temp);
+    
     return result;
 }
 
+QInt QInt::operator -(QInt qint) {
+    QInt result = *this;
+    return result + qint.QInttoTwosComplement();
+} 
+
+bool QInt::isZero() {
+    for (int i = 0; i < this->data.size(); i++)
+        if (this->data[i] != 0)
+            return 0;
+    return 1;
+}
 
 //Operator & | ^ ~
 QInt QInt::operator & (const QInt &qint) {
@@ -262,8 +263,10 @@ QInt QInt::operator <<(const int times) {
     for (int j = 0; j < times; j++)
         for (int i = 3; i >= 0; i--) {
             result.data[i] = result.data[i] << 1;
-            if (getBit(result.data[i-1], 31) == 1)
-                setBit(result.data[i], 0);
+            if (i - 1 >= 0) {
+                if (getBit(result.data[i-1], 31) == 1)
+                    setBit(result.data[i], 0);
+            }
         }
     return result;
 }
@@ -274,8 +277,10 @@ QInt QInt::operator >>(const int times) {
     for (int j = 0; j < times; j++)
         for (int i = 0; i < 4; i++) {
             result.data[i] = result.data[i] >> 1;
-            if (getBit(result.data[i+1], 0) == 1)
-                setBit(result.data[i], 31);
+            if (i + 1 <= 3) {
+                if (getBit(result.data[i+1], 0) == 1)
+                    setBit(result.data[i], 31);
+            }
             if (getBit(data[3], 31) == 1)
                 setBit(result.data[3], 31);
         }
@@ -288,13 +293,14 @@ QInt QInt::operator ==(const int times) {
     for (int j = 0; j < times; j++)
         for (int i = 0; i < 4; i++) {
             result.data[i] = result.data[i] >> 1;
-            if (getBit(result.data[i+1], 0) == 1)
-                setBit(result.data[i], 31);
+            if (i + 1 <= 3) {
+                if (getBit(result.data[i+1], 0) == 1)
+                    setBit(result.data[i], 31);
+            }
         }
     return result;
     
 }
-
 
 QInt& QInt::RoL(const int times) {
     for (int i = 0; i < times; i++) {
@@ -343,24 +349,40 @@ int QInt::setBit(uint32_t &data, int position) {
 }
 
 string QInt::Add2String(string &num1, string &num2) {
-    int tempNum = 0;
-    //Thêm 0 vào 2 dãy đến khi chúng có chiều dài bằng nhau
-    if (num1.size() > num2.size())
-        while (num1.size() != num2.size())
-            num2.insert(num2.begin(), '0');
-    else
-        while (num1.size() != num2.size())
-            num1.insert(num1.begin(), '0');
     
-    for (int i = num1.size() - 1; i >= 0; i--) {
-        tempNum = tempNum + num1[i] + num2[i] - 2 * '0';
-        num1[i] = (tempNum % 10) + '0';
-        tempNum = tempNum / 10;
-    }
-    
-    if (tempNum != 0) {
-        num1.insert(num1.begin(), tempNum + '0');
-        tempNum = 0;
+    if (num1[0] == '-' && num2[0] != '-') {
+        num1.erase(num1.begin());
+        num1 = Substract2String(num2, num1);
+    } else {
+        if (num2[0] == '-' && num1[0] != '-') {
+            num2.erase(num2.begin());
+            num1 = Substract2String(num1, num2);
+        } else {
+            int tempNum = 0;
+            bool negative = false;
+            
+            if (num1[0] == '-' && num2[0] == '-')
+                negative = true;
+            
+            //Thêm 0 vào 2 dãy đến khi chúng có chiều dài bằng nhau
+            if (num1.size() > num2.size())
+                while (num1.size() != num2.size())
+                    num2.insert(num2.begin(), '0');
+            else
+                while (num1.size() != num2.size())
+                    num1.insert(num1.begin(), '0');
+            
+            for (int i = num1.size() - 1; i >= 0; i--) {
+                tempNum = tempNum + num1[i] + num2[i] - 2 * '0';
+                num1[i] = (tempNum % 10) + '0';
+                tempNum = tempNum / 10;
+            }
+            
+            if (tempNum != 0) {
+                num1.insert(num1.begin(), tempNum + '0');
+                tempNum = 0;
+            }
+        }
     }
     
     while (num1[0] == '0')
@@ -369,8 +391,9 @@ string QInt::Add2String(string &num1, string &num2) {
     return num1;
 }
 
-string QInt::Substract2String(string &num1, string &num2) {
+string QInt::Substract2String(string &num1, string &num2) {    
     int Temp = 0;
+    bool negative = false;
     
     if (num1.size() > num2.size())
         while (num1.size() != num2.size())
@@ -383,6 +406,7 @@ string QInt::Substract2String(string &num1, string &num2) {
         string TempStr = num1;
         num1 = num2;
         num2 = TempStr;
+        negative = true;
     }
     
     for (int i = num1.size() - 1; i > -1; i--) {
@@ -397,7 +421,13 @@ string QInt::Substract2String(string &num1, string &num2) {
     
     while (num1[0] == '0')
         num1.erase(num1.begin());
+    if (negative == true)
+        num1.insert(num1.begin(), '-');
     return num1;
+}
+
+QInt QInt::QInttoTwosComplement() {
+    return (~*this + QInt("1"));
 }
 
 
