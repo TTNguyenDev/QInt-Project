@@ -262,12 +262,12 @@ string Interface::inputString() {
     return number;
 }
 
-int main() {
-    Interface a;
-    a.helloScreen();
-    a.select_QFloat_QInt();
-
-    
-    
-}
+//int main() {
+//    Interface a;
+//    a.helloScreen();
+//    a.select_QFloat_QInt();
+//
+//    
+//    
+//}
 

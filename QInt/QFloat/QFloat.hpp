@@ -11,19 +11,24 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
 class QFloat {
 private:
     vector<long> data;
+    //int exp;
+    
 public:
-    //Convert input
-    //chuyen float hệ 10 sang float hệ 2
     QFloat();
     QFloat(string);
-    string QFloat2Bin();
-
+    
+    //support function
+    string convertInt(string);
+    string DividedByTwo(string&);
+    string DecFloat2Bin(string,int&);
+    string multiplyAfterDotByTwo(string);
 };
-
+    
 #endif /* QFloat_hpp */

@@ -175,6 +175,9 @@ string QInt::QInt2Bin() {
 }
 
 string QInt::QInt2Dec() {
+    if (isZero())
+        return "0";
+    
     long double temp;
     string saveString;
     string result;
