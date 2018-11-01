@@ -24,10 +24,12 @@ public:
     QFloat();
     QFloat(string);
     
+    string DecFloat2Bin(string);
+    string BinFloat2Bin(string);
+    
     //support function
     string convertInt(string);
     string DividedByTwo(string&);
-    string DecFloat2Bin(string,int&);
     string multiplyAfterDotByTwo(string);
 };
     

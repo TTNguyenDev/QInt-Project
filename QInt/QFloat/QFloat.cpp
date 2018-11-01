@@ -92,7 +92,8 @@ string QFloat::multiplyAfterDotByTwo(string input) {
     return result;
 } //Nhân chuỗi string cho 2
 
-string QFloat::DecFloat2Bin(string floatString, int &exp) {
+string QFloat::DecFloat2Bin(string floatString) {
+    int exp;
     bool negative = false;
     if (floatString[0] == '-') {
         negative = true;
@@ -114,11 +115,11 @@ string QFloat::DecFloat2Bin(string floatString, int &exp) {
         fraction_significant = floatString.substr(dotPostion);
         fraction_significant.insert(fraction_significant.begin(), '0');
     }
-
+    
     int_significant = convertInt(int_significant);
     
     k = (1 << 14) - 1;
-   
+    
     if (int_significant != "") {
         exp = int_significant.size() - 1 + k;
         for (int i = 0; i < 112 - int(int_significant.size() - 1); ++i) {
@@ -159,19 +160,52 @@ string QFloat::DecFloat2Bin(string floatString, int &exp) {
     string result = int_significant + bit;
     while (result[0] == '0') result.erase(0, 1);
     while (result.size() < 113) result += '0';
-    
+    if (result.size() >= 113) {
+        int temp = result.size() - 112;
+        while (temp != 0) {
+            result.pop_back();
+            temp--;
+        }
+    }
     result = convertInt(to_string(exp)) + result;
-    
-    if (negative == true) {
+    if (negative == true)
         result.insert(result.begin(), '1');
-    } else result.insert(result.begin(), '0');
+    else result.insert(result.begin(), '0');
     return result;
 }
 
-
+string QFloat::BinFloat2Bin(string floatString) {
+    int exp;
+    int dotPosition;
+    bool negative = false;
+    
+    if (floatString[0] == '-') {
+        negative = true;
+        floatString.erase(floatString.begin());
+    }
+    
+    if (floatString.find_first_of('.') == string::npos) {
+        floatString += ".0";
+    }
+    
+    dotPosition = floatString.find_first_of('.');
+    floatString.erase(dotPosition,1);
+    exp = 16382 + dotPosition;
+    floatString = convertInt(to_string(exp)) + floatString;
+    
+    while (floatString.size() <= 127)
+        floatString.push_back('0');
+    
+    if (negative == true)
+        floatString.insert(floatString.begin(), '1');
+     else floatString.insert(floatString.begin(), '0');
+    
+    return floatString;
+}
 
 int main() {
     QFloat a;
-    int exp = 0;
-    cout << a.DecFloat2Bin("-123.4", exp) << endl;
+    
+    cout << a.BinFloat2Bin("1101110") << endl;
+    cout << a.DecFloat2Bin("110") << endl;
 }
