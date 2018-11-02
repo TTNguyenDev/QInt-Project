@@ -7,19 +7,62 @@
 //
 
 #include "QFloat.hpp"
+#include <math.h>
 
 QFloat::QFloat() {
     this->data.resize(4);
 }
 
-QFloat::QFloat(string input) {
-    bool negative = false;
+QFloat::QFloat(string input, int type) { //2 hoac 10
     this->data.resize(4);
+    string result = "";
     
-    if (input[0] == '-') {
+    if (type == 2)
+        result = BinFloat2Bin(input);
+    if (type == 10)
+        result = DecFloat2Bin(input);
+    
+    for (int i = 0; i < 128; i++)
+        if (result[i] == '1')
+            this->data[(127-i) / 32] = this->data[(127-i) / 32] | (1 << (31 - (i % 32)));
+}
+
+string QFloat::toStr() {
+    string result;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 32; j++)
+            result.push_back(getBit(data[i], j) + 48);
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+string QFloat::QFloat2Binary() {
+    bool negative = false;
+    string binary = this->toStr();
+    
+    if (binary[0] == '1')
         negative = true;
-        input.erase(input.begin());
-    }
+    
+    int pos = exp - 16383 + 1;
+    
+    string significant = binary.substr(16, 127);
+
+        significant.insert(significant.begin() + pos, '.');
+    
+    if (negative == true)
+        significant.insert(significant.begin(), '-');
+    
+
+    return significant;
+}
+
+int QFloat::changeExponent2Int(string n) {
+    int result = 0;
+    reverse(n.begin(), n.end());
+    for (int i = 0; i < n.length(); i++)
+        if (n[i] == '1')
+            result += 1 * pow(2,i);
+    return result;
 }
 
 string QFloat::DividedByTwo(string &str) {
@@ -93,7 +136,6 @@ string QFloat::multiplyAfterDotByTwo(string input) {
 } //Nhân chuỗi string cho 2
 
 string QFloat::DecFloat2Bin(string floatString) {
-    int exp;
     bool negative = false;
     if (floatString[0] == '-') {
         negative = true;
@@ -167,7 +209,14 @@ string QFloat::DecFloat2Bin(string floatString) {
             temp--;
         }
     }
-    result = convertInt(to_string(exp)) + result;
+    
+    string expStr = convertInt(to_string(exp));
+    
+    if (expStr.length() < 15) {
+        expStr.insert(expStr.begin(), '0');
+    }
+    
+    result = expStr + result;
     if (negative == true)
         result.insert(result.begin(), '1');
     else result.insert(result.begin(), '0');
@@ -175,7 +224,6 @@ string QFloat::DecFloat2Bin(string floatString) {
 }
 
 string QFloat::BinFloat2Bin(string floatString) {
-    int exp;
     int dotPosition;
     bool negative = false;
     
@@ -191,21 +239,39 @@ string QFloat::BinFloat2Bin(string floatString) {
     dotPosition = floatString.find_first_of('.');
     floatString.erase(dotPosition,1);
     exp = 16382 + dotPosition;
-    floatString = convertInt(to_string(exp)) + floatString;
+    
+    string expStr = convertInt(to_string(exp));
+    if (expStr.length() < 15) {
+        expStr.insert(expStr.begin(), '0');
+    }
+    
+    floatString = expStr + floatString;
     
     while (floatString.size() <= 127)
         floatString.push_back('0');
     
     if (negative == true)
         floatString.insert(floatString.begin(), '1');
-     else floatString.insert(floatString.begin(), '0');
+    else floatString.insert(floatString.begin(), '0');
     
     return floatString;
 }
 
+int QFloat::getBit(uint32_t data, int position) {
+    return (data >> position) & 1;
+} //Lấy bit tại vị trí position
+
+
+
+
+
 int main() {
-    QFloat a;
+    QFloat a("12.3",10);
+    QFloat x;
+    string result;
+    cout << a.QFloat2Binary() << endl;
     
-    cout << a.BinFloat2Bin("1101110") << endl;
-    cout << a.DecFloat2Bin("110") << endl;
+
+    
+    
 }

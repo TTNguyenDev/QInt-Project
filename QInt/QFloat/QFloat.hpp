@@ -17,17 +17,22 @@ using namespace std;
 
 class QFloat {
 private:
-    vector<long> data;
-    //int exp;
+    vector<uint32_t> data;
+    int exp;
     
 public:
     QFloat();
-    QFloat(string);
+    QFloat(string,int);
     
     string DecFloat2Bin(string);
     string BinFloat2Bin(string);
+    string QFloat2Binary();
+    string toStr();
     
+//    string QFloat2Dec();
     //support function
+    int changeExponent2Int(string n);
+    int getBit(uint32_t,int);
     string convertInt(string);
     string DividedByTwo(string&);
     string multiplyAfterDotByTwo(string);
