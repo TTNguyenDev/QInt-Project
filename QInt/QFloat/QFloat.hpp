@@ -27,15 +27,19 @@ public:
     string DecFloat2Bin(string);
     string BinFloat2Bin(string);
     string QFloat2Binary();
-    string toStr();
+    string QFloat2Dec();
     
-//    string QFloat2Dec();
     //support function
-    int changeExponent2Int(string n);
+    int getBit(int);
     int getBit(uint32_t,int);
+    int changeExponent2Int(string n);
     string convertInt(string);
     string DividedByTwo(string&);
     string multiplyAfterDotByTwo(string);
+    
+    
+    //testFunc
+    string toStr();
 };
     
 #endif /* QFloat_hpp */
