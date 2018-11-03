@@ -10,6 +10,7 @@
 #define Interface_hpp
 
 #include "QInt.hpp"
+#include "QFloat.hpp"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ public:
     void functionalityQInt();
     void functionalityQFloat();
     int selectBaseNumber();
+    int selectBaseNumberForQFloat();
     void convert(int);
     void andOrXorNotFunc(int);
     void selectAndOrXorNot();

@@ -115,9 +115,9 @@ void Interface::calculate(int type) { //1 QInt, 2 QFloat
         
         if (operator_c == 2)
             result = ele_1 - ele_2;
-//        if (operator_c == 3);
-//
-//        if (operator_c == 4);
+        //        if (operator_c == 3);
+        //
+        //        if (operator_c == 4);
         
         cout << "Select result base number: " << endl;
         int bases = selectBaseNumber();
@@ -128,7 +128,7 @@ void Interface::calculate(int type) { //1 QInt, 2 QFloat
             output = result.QInt2Dec();
         }
         if (bases == 4) {
-           output = result.QInt2Hex();
+            output = result.QInt2Hex();
         }
         cout << "Result: " << output << endl;
         // * /
@@ -136,7 +136,7 @@ void Interface::calculate(int type) { //1 QInt, 2 QFloat
         
     }
 }
-    
+
 void Interface::selectAndOrXorNot() {
     cout << "\t\t\t************************************" << endl;
     cout << "\t\t\t*  1.And(&)                        *" << endl;
@@ -192,13 +192,13 @@ void Interface::andOrXorNotFunc(int type) {
 }
 
 void Interface::convert(int type) { //1 QInt, 2 QFloat
-    cout << "Select base number 1: " << endl;
-    int base_1 = selectBaseNumber();
-    cout << "Select base number 2: " << endl;
-    int  base_2 = selectBaseNumber();
-    string number_1 = inputString();
-    
     if (type == 1) {
+        cout << "Select base number 1: " << endl;
+        int base_1 = selectBaseNumber();
+        cout << "Select base number 2: " << endl;
+        int  base_2 = selectBaseNumber();
+        string number_1 = inputString();
+        
         QInt a;
         if (base_1 == 1)
             number_1 = a.Bin2Bin(number_1);
@@ -218,7 +218,14 @@ void Interface::convert(int type) { //1 QInt, 2 QFloat
         if (base_2 == 4)
             cout << b.QInt2Hex();
     } else if (type == 2) {
+        cout << "Select base number 1: " << endl;
+        int base_1 = selectBaseNumberForQFloat();
+        cout << "Select base number 2: " << endl;
+        int  base_2 = selectBaseNumberForQFloat();
+        string number_1 = inputString();
         
+        QFloat a(number_1, base_1);
+        cout << a.exportQFloat(base_2);
     }
 }
 
@@ -242,6 +249,24 @@ int Interface::selectBaseNumber() {
             return 3;
         case 4:
             return 4;
+    }
+    return 0;
+}
+
+int Interface::selectBaseNumberForQFloat() {
+    cout << "\t\t\t**************" << endl;
+    cout << "\t\t\t*  1.Bin     *" << endl;
+    cout << "\t\t\t*  2.Dec     *" << endl;
+    cout << "\t\t\t**************" << endl;
+    
+    int choose;
+    cout << "-> ";
+    cin >> choose;
+    switch (choose) {
+        case 1:
+            return 1;
+        case 2:
+            return 2;
     }
     return 0;
 }

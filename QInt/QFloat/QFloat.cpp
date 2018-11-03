@@ -7,7 +7,7 @@
 //
 
 #include "QFloat.hpp"
-#include <math.h>
+
 
 QFloat::QFloat() {
     this->data.resize(4);
@@ -170,20 +170,15 @@ string QFloat::QFloat2Binary() {
 } //Convert biến QFloat thành binary ở dạng chuỗi
 
 string QFloat::QFloat2Dec() {
-    long double temp;
-    string saveString;
-    string result;
-    int dotOfFloatNumber = 0;
-    vector<bool> m_data;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 32; j++) {
-            if (i == 3 && j > 15) {}
-            else {
-                m_data.push_back(getBit(data[i], j));
-            }
-        }
-    // đã có mảng bool chứa significant
-    return result;
+    return "1";
+}
+
+string QFloat::exportQFloat(int type) {
+    if (type == 1)
+        return QFloat2Binary();
+    else if (type == 2)
+        return QFloat2Dec();
+    return "0";
 }
 
 string QFloat::toStr() {

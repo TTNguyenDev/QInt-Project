@@ -12,6 +12,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <math.h>
+
+#include "QInt.hpp"
 
 using namespace std;
 
@@ -28,6 +31,7 @@ public:
     string BinFloat2Bin(string);
     string QFloat2Binary();
     string QFloat2Dec();
+    string exportQFloat(int);
     
     //support function
     int getBit(int);
