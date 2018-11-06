@@ -7,6 +7,7 @@
 //
 
 #include "Interface.hpp"
+#include "File.hpp"
 #include <iostream>
 
 void Interface::helloScreen() {
@@ -224,6 +225,11 @@ void Interface::convert(int type) { //1 QInt, 2 QFloat
         int  base_2 = selectBaseNumberForQFloat();
         string number_1 = inputString();
         
+        if (base_1 == 1)
+            base_1 = 2;
+        else
+            base_1 = 10;
+        
         QFloat a(number_1, base_1);
         cout << a.exportQFloat(base_2);
     }
@@ -287,12 +293,20 @@ string Interface::inputString() {
     return number;
 }
 
-//int main() {
-//    Interface a;
-//    a.helloScreen();
-//    a.select_QFloat_QInt();
-//
-//    
-//    
-//}
+int main(int argc, const char * argv[]) {
+    if (argc == 3) {
+        File f;
+        f.readFile(argv[1]);
+        f.writeFile(argv[2]);
+        
+        FileFloat f2;
+        f2.readFileFloat(argv[1]);
+        f2.writeFileFloat(argv[2]);
+    } else {
+        Interface a;
+        a.helloScreen();
+        a.select_QFloat_QInt();
+    }
+}
+
 

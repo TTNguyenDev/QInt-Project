@@ -217,14 +217,85 @@ QInt QInt::operator +(QInt qint) {
 QInt QInt::operator -(QInt qint) {
     QInt result = *this;
     return result + qint.QInttoTwosComplement();
-} 
-
-bool QInt::isZero() {
-    for (int i = 0; i < this->data.size(); i++)
-        if (this->data[i] != 0)
-            return 0;
-    return 1;
 }
+
+QInt QInt::operator *(QInt qint) {
+    QInt result;
+    QInt temp = *this;
+    QInt one("1"); //Số 1
+    bool nega = 0; //Flag số âm
+    
+    if ((temp.isNegative() && !qint.isNegative()) || (!temp.isNegative() && qint.isNegative()))//check trai dau
+        nega = 1;
+    if (qint.isNegative())
+        qint = ~(qint - one); // - -> +
+    if (temp.isNegative())
+        temp = ~(temp - one);
+    
+    while (!(qint.isNegative() || qint.isZero()))
+    {
+        if (((qint & one) - one).isZero()) //Nếu QInt lẻ thì cộng kết quả với Temp.
+            result = result + temp;
+        temp = temp << 1;
+        qint = qint >> 1;
+    }
+    
+    if (nega == 1)
+        result = result.QInttoTwosComplement(); //bù 2.
+    
+    return result;
+}
+
+QInt QInt::operator / (QInt qint) {
+    QInt result;
+    
+    if (this->isZero() || qint.isZero())
+        return result;
+    else
+    {
+        QInt One("1");
+        
+        if ((qint - QInt()).isZero())
+            result = *this;
+        else
+        {
+            QInt temp = *this;
+            int k = result.data.size() * 32;
+            bool nega = 0;
+            
+            if ((temp.isNegative() && !qint.isNegative()) || (!temp.isNegative() && qint.isNegative()))//check trai dau.
+                nega = 1;
+            if (qint.isNegative())
+                qint = ~(qint - One); // - -> +
+            if (temp.isNegative())
+                temp = ~(temp - One);
+            
+            while (k > 0)
+            {
+                result = result << 1;
+                result.data[0] = result.data[0] | ((temp.data[temp.data.size() - 1] & (1 << 31))) >> 31;
+                temp = temp << 1;
+                
+                result = result - qint;
+                if (result.isNegative())
+                    result = result + qint;
+                else
+                    temp.data[0] = temp.data[0] | 1;
+                --k;
+            }
+            
+            result = temp;
+            if (nega == 1)
+            {
+                result = result.QInttoTwosComplement();// bu 2
+            }
+        }
+    }
+    return result;
+}
+
+
+
 
 //Operator & | ^ ~
 QInt QInt::operator & (const QInt &qint) {
@@ -433,5 +504,17 @@ QInt QInt::QInttoTwosComplement() {
     return (~*this + QInt("1"));
 }
 
+bool QInt::isNegative() {
+    if ((this->data[this->data.size() - 1] & (1 << 31)) >> 31 == 1)
+        return 1;
+    return 0;
+}
+
+bool QInt::isZero() {
+    for (int i = 0; i < this->data.size(); i++)
+        if (this->data[i] != 0)
+            return 0;
+    return 1;
+}
 
 

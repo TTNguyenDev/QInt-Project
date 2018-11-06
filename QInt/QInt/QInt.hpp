@@ -42,6 +42,8 @@ public:
     //+ - * /
     QInt operator +(QInt qint);
     QInt operator -(QInt qint);
+    QInt operator *(QInt qint);
+    QInt operator /(QInt qint);
     
     //Support Function
     string DividedByTwo(string&);
@@ -51,6 +53,7 @@ public:
     string Add2String(string&,string&);
     bool isZero();
     QInt QInttoTwosComplement();
+    bool isNegative();
 
 };
 

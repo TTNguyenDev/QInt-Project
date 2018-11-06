@@ -280,9 +280,3 @@ int QFloat::getBit(int pos) {
 } // Lấy bit dựa vào vị trí, phát triển từ hàm getBit(uint32_t,int)
 
 
-int main() {
-    QFloat a("1100", 2);
-    QFloat x;
-    string result;
-    cout << a.QFloat2Binary() << endl;
-}
